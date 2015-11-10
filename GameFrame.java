@@ -44,7 +44,7 @@ public class GameFrame{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		      	//frame.setResizable(false);
 			    // frame.pack();
-		frame.setSize(605, 200);
+		frame.setSize(600, 200);
 		frame.setVisible(true);
 	}
 /* Has
