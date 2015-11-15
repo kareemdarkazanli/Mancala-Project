@@ -17,12 +17,28 @@ import javax.swing.event.*;
 	Given number of starting stones
 */
 class Game {
-	public enum Player { A, B };
 	public enum Pit {
-		A1, A2, A3, A4, A5, A6, MANCALA_A,
-		B1, B2, B3, B4, B5, B6, MANCALA_B
+		A1(), A2(), A3(), A4(), A5(), A6(), MANCALA_A(),
+		B1(), B2(), B3(), B4(), B5(), B6(), MANCALA_B();
+
+		private Pit() {
+			fromOrdinal.put(ordinal(), this);
+		}
+
+		public Pit successor() {
+			int index = (ordinal() + 1) % fromOrdinal.size();
+			return fromOrdinal.get(index);
+		}
+
+		public boolean isMancala() {
+			return this == MANCALA_A || this == MANCALA_B;
+		}
+
+		private HashMap<Integer,Pit> fromOrdinal = new HashMap<>();
 	}
-	private static int NUM_STONES = 14;
+	private enum Player { A, B };
+	private static int NUM_PITS = 14;
+	private static int MAX_UNDOS = 3;
 
 	public void attachListener(ChangeListener listener) {
 		listeners.add(listener);
@@ -37,19 +53,21 @@ class Game {
 			emit("That pit is empty!");
 			return;
 		}
+		save();
 		pickupStones(clicked);
 		if (isGameOver()) {
 			emit("Game over! " + winningPlayer());
-		} else {
-			// Reset undo.
-			save();
-			emit("OK move by " + playerName(currentPlayer) + ".");
+			return;
 		}
+		if (canUndo) {
+			undosTaken = 0;
+		}
+		canUndo = true;
+		emit("OK move by " + playerName(currentPlayer) + ".");
 	}
 
 	public void performUndo() {
-		int remaining = 3 - undosTaken;
-		if (undosTaken == 3) {
+		if (undosTaken == MAX_UNDOS) {
 			emit("Max undos used this turn!");
 			return;
 		}
@@ -57,10 +75,11 @@ class Game {
 			emit("You must take a turn first!");
 			return;
 		}
-		canUndo = false; // Can't undo twice in a row.
+		canUndo = false;
 		undosTaken += 1;
 		rollback();
-		emit("Move undone... " + (remaining - 1) + " left this turn!");
+		int remaining = MAX_UNDOS - undosTaken;
+		emit("Move undone... " + remaining + " left this turn!");
 	}
 
 	public int getNumberOfStones(Pit pit) {
@@ -86,11 +105,11 @@ class Game {
 	}
 
 	private void save() {
-		previousStones = Arrays.copyOf(stones, NUM_STONES);
+		previousStones = Arrays.copyOf(stones, NUM_PITS);
 	}
 
 	private void rollback() {
-		stones = Arrays.copyOf(previousStones, NUM_STONES);
+		stones = Arrays.copyOf(previousStones, NUM_PITS);
 	}
 
 	private String playerName(Player player) {
@@ -116,10 +135,22 @@ class Game {
 	}
 
 	private void pickupStones(Pit pit) {
+		for (int pickedUp = stones[pit.ordinal()]; pickedUp > 0; pickedUp--) {
+			pit = pit.successor();
+			if (pit.isMancala() && !belongsTo(pit, currentPlayer))
+				pit = pit.successor();
+			stones[pit.ordinal()]++;
+		}
 	}
 
 	private boolean isGameOver() {
-		return false;
+		int sum = 0;
+		for (int s : stones)
+			sum += s;
+		// We only want the regular pits and not the mancalas!
+		sum -= stones[Pit.MANCALA_A.ordinal()];
+		sum -= stones[Pit.MANCALA_B.ordinal()];
+		return sum == 0;
 	}
 
 	private String winningPlayer() {
@@ -133,10 +164,10 @@ class Game {
 		}
 	}
 
-	private int[] stones = new int[NUM_STONES];
-	private int[] previousStones = new int[NUM_STONES];
+	private int[] stones = new int[NUM_PITS];
+	private int[] previousStones = new int[NUM_PITS];
 	private Player currentPlayer = Player.A;
-	private boolean canUndo = false;
+	private boolean canUndo = false; // Can't undo twice in a row.
 	private int undosTaken = 0;
 	private ArrayList<ChangeListener> listeners = new ArrayList<>();
 	private String message = "Welcome to Mancala!";
