@@ -195,6 +195,7 @@ class Game {
 				pit = pit.successor();
 			stones[pit.ordinal()]++;
 		}
+		// TODO: If we ended on our own mancala, we get another turn.
 	}
 
 	private boolean isGameOver() {
