@@ -87,7 +87,12 @@ class Game {
 			return;
 		}
 		save();
-		pickupStones(clicked);
+		boolean endedOnMancala = pickupStones(clicked);
+		if (!endedOnMancala) {
+			currentPlayer = currentPlayer == Player.A
+				? Player.B
+				: Player.A;
+		}
 		if (isGameOver()) {
 			emit("Game over! " + winningPlayer());
 			return;
@@ -187,7 +192,7 @@ class Game {
 		return stones[pit.ordinal()] == 0;
 	}
 
-	private void pickupStones(Pit pit) {
+	private boolean pickupStones(Pit pit) {
 		for (int pickedUp = stones[pit.ordinal()]; pickedUp > 0; pickedUp--) {
 			pit = pit.successor();
 			// Skip the opponent's mancala.
@@ -195,7 +200,7 @@ class Game {
 				pit = pit.successor();
 			stones[pit.ordinal()]++;
 		}
-		// TODO: If we ended on our own mancala, we get another turn.
+		return pit.isMancala();
 	}
 
 	private boolean isGameOver() {
