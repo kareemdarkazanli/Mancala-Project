@@ -169,8 +169,8 @@ class Game {
 		switch (player) {
 		case A: return "Player A";
 		case B: return "Player B";
+		default: throw new RuntimeException("Unknown player!");
 		}
-		return null;
 	}
 
 	private boolean belongsTo(Pit pit, Player player) {
@@ -179,8 +179,8 @@ class Game {
 		               pit.ordinal() <= Pit.MANCALA_A.ordinal();
 		case B: return Pit.B1.ordinal() <= pit.ordinal() &&
 		               pit.ordinal() <= Pit.MANCALA_B.ordinal();
+		default: throw new RuntimeException("Unknown player!");
 		}
-		return false;
 	}
 
 	private boolean isEmpty(Pit pit) {
@@ -190,6 +190,7 @@ class Game {
 	private void pickupStones(Pit pit) {
 		for (int pickedUp = stones[pit.ordinal()]; pickedUp > 0; pickedUp--) {
 			pit = pit.successor();
+			// Skip the opponent's mancala.
 			if (pit.isMancala() && !belongsTo(pit, currentPlayer))
 				pit = pit.successor();
 			stones[pit.ordinal()]++;
@@ -197,13 +198,12 @@ class Game {
 	}
 
 	private boolean isGameOver() {
-		int sum = 0;
-		for (int s : stones)
-			sum += s;
-		// We only want the regular pits and not the mancalas!
-		sum -= stones[Pit.MANCALA_A.ordinal()];
-		sum -= stones[Pit.MANCALA_B.ordinal()];
-		return sum == 0;
+		for (int i = 0; i < NUM_PITS; i++) {
+			Pit pit = Pit.fromOrdinal(i);
+			if (!isMancala(pit) && !isEmpty(pit))
+				return false;
+		}
+		return true;
 	}
 
 	private String winningPlayer() {
