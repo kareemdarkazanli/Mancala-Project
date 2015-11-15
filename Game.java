@@ -221,8 +221,8 @@ class Game {
 	private int[] stones = new int[NUM_PITS];
 	private int[] previousStones = new int[NUM_PITS];
 	private Player currentPlayer = Player.A;
-	private boolean canUndo = false; // Can't undo twice in a row.
-	private int undosTaken = 0;
+	private boolean canUndo = false; // To prevent undoing twice in a row, which is illegal.
+	private int undosTaken = 0; // A player can only undo MAX_UNDOS times per turn.
 	private ArrayList<ChangeListener> listeners = new ArrayList<>();
 	private String message = "Welcome to Mancala!";
 }
