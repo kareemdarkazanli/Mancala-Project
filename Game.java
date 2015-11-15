@@ -1,22 +1,33 @@
+/**
+ * The Game model.
+ * @author Paul Merrill
+ */
+
 package project;
 
 import java.util.*;
 import javax.swing.event.*;
 
-/* Responsibilities
-	Keep track of the game state
-	Notify views/listeners when game state changes
-	Understands game logic and knows how to any game move
-	Able to undo moves
-	Keeps track of if an undo is possible
-	Knows when game is over
-	Knows player scores
-	Receives player moves
-	Knows which player’s turn it is
-	Knows how many undos a player has used in a single turn
-	Given number of starting stones
-*/
+/**
+ * A model for a Mancala game.
+ *
+ * Responsibilities:
+ *   Keep track of the game state
+ *   Notify views/listeners when game state changes
+ *   Understands game logic and knows how to any game move
+ *   Able to undo moves
+ *   Keeps track of if an undo is possible
+ *   Knows when game is over
+ *   Knows player scores
+ *   Receives player moves
+ *   Knows which player’s turn it is
+ *   Knows how many undos a player has used in a single turn
+ *   Given number of starting stones
+ */
 class Game {
+	/**
+	 * Pit is the list of board pits and board mancalas.
+	 */
 	public enum Pit {
 		A1(), A2(), A3(), A4(), A5(), A6(), MANCALA_A(),
 		B1(), B2(), B3(), B4(), B5(), B6(), MANCALA_B();
@@ -25,11 +36,21 @@ class Game {
 			fromOrdinal.put(ordinal(), this);
 		}
 
+		/**
+		 * Returns the next pit that comes after this one.
+		 *
+		 * @return the next pit after this one
+		 */
 		public Pit successor() {
 			int index = (ordinal() + 1) % fromOrdinal.size();
 			return fromOrdinal.get(index);
 		}
 
+		/**
+		 * Returns whether this pit is actually a mancala pit.
+		 *
+		 * @return whether this pit is a mancala pit
+		 */
 		public boolean isMancala() {
 			return this == MANCALA_A || this == MANCALA_B;
 		}
@@ -40,10 +61,22 @@ class Game {
 	private static int NUM_PITS = 14;
 	private static int MAX_UNDOS = 3;
 
+	/**
+	 * Adds a ChangeListener to the model.
+	 *
+	 * @param listener
+	 *            the ChangeListener to be added
+	 */
 	public void attachListener(ChangeListener listener) {
 		listeners.add(listener);
 	}
 
+	/**
+	 * Attempts to make a move for the current player.
+	 *
+	 * @param clicked
+	 *            the Pit the current player wants to pick up stones from
+	 */
 	public void performMove(Pit clicked) {
 		if (!belongsTo(clicked, currentPlayer)) {
 			emit("That's not your pit!");
@@ -66,6 +99,9 @@ class Game {
 		emit("OK move by " + playerName(currentPlayer) + ".");
 	}
 
+	/**
+	 * Attempts to undo the last move, if legal.
+	 */
 	public void performUndo() {
 		if (undosTaken == MAX_UNDOS) {
 			emit("Max undos used this turn!");
@@ -82,18 +118,35 @@ class Game {
 		emit("Move undone... " + remaining + " left this turn!");
 	}
 
+	/**
+	 * Returns the number of stones that are currently in a particular pit.
+	 *
+	 * @param pit
+	 *            the pit to check
+	 * @return the number of stones in that pit
+	 */
 	public int getNumberOfStones(Pit pit) {
 		return stones[pit.ordinal()];
 	}
 
-	public Player getCurrentPlayer() {
-		return currentPlayer;
-	}
-
+	/**
+	 * Set the number of stones starting out in each pit. Initially, the
+	 * game has zero stones in each pit. The number of stones must be set
+	 * before gameplay can commence.
+	 *
+	 * @param count
+	 *            the number of stones to start each pit with
+	 */
 	public void setNumberOfStartingStones(int count) {
 		Arrays.fill(stones, count);
 	}
 
+	/**
+	 * Returns the latest message for the players of the game. The message
+	 * changes as different actions are taken or attempted.
+	 *
+	 * @return the latest message for the players
+	 */
 	public String getMessageForPlayers() {
 		return message;
 	}
