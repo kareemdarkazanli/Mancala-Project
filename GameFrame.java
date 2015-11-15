@@ -15,36 +15,20 @@ public class GameFrame{
 	{
 		
 		
-		/*JPanel mancalaPanel1 = new JPanel();
-		mancalaPanel1.setLayout(new BorderLayout());
-		mancalaPanel1.add(new MancalaComponent(), BorderLayout.CENTER);
-		
-		JPanel mancalaPanel2 = new JPanel();
-		mancalaPanel2.setLayout(new BorderLayout());
-		mancalaPanel2.add(new MancalaComponent(), BorderLayout.CENTER);
-		
-		JPanel pitsPanel = new JPanel();
-		pitsPanel.setLayout(new GridLayout(2, 6));
-	      
-	      for(int i = 0; i < 12; i++)
-		    {
-	    	   	PitComponent pit = new PitComponent();
-		        pitsPanel.add(pit);
-		    }
-		
-	    JPanel gameBoard = new JPanel();
-	    //gameBoard.setLayout(new BorderLayout());
-	    gameBoard.add(mancalaPanel1, BorderLayout.EAST);
-	    gameBoard.add(mancalaPanel2, BorderLayout.WEST);
-	    gameBoard.add(pitsPanel, BorderLayout.CENTER);*/
 		
 		JFrame frame = new JFrame();
-		frame.add(new GameBoard(), BorderLayout.CENTER); 	      
+		frame.add(new GameWithLabels(), BorderLayout.CENTER);
+		
+		JLabel statusLabel = new JLabel("The status goes here");
+		frame.add(statusLabel, BorderLayout.SOUTH);
+		
+		JButton undoButton = new JButton("UNDO");
+		frame.add(undoButton, BorderLayout.NORTH);
 		      
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		      	//frame.setResizable(false);
 			    // frame.pack();
-		frame.setSize(600, 200);
+		frame.setSize(400, 235);
 		frame.setVisible(true);
 	}
 /* Has

@@ -1,5 +1,6 @@
 package project;
 import java.awt.BasicStroke;
+import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
@@ -16,10 +17,44 @@ import javax.swing.*;
 	Draws stones (color from VisualTheme)
 	Tells Game that a move was made on click
 */
-public class PitComponent extends JComponent implements MouseListener {
+public class PitLabel extends JLabel implements MouseListener {
 	
 	
-	public void paintComponent(Graphics g) {
+	private static int ICON_WIDTH = 40;
+	private static int ICON_HEIGHT = 60;
+	
+	public PitLabel()
+	{
+		super(pit);
+		
+		
+		
+	}
+	
+	static Icon pit = new Icon()
+    {
+       public int getIconWidth() { return ICON_WIDTH; }
+       public int getIconHeight() { return ICON_HEIGHT; }
+       
+       public void paintIcon(Component c, Graphics g, int x, int y)
+       {
+          Graphics2D g2 = (Graphics2D) g;
+
+          //Get number of pebbles from model and then draw them
+          
+          Ellipse2D.Double pit = new Ellipse2D.Double();
+          pit.height = 60;
+          pit.width = 40;
+          g2.draw(pit);
+          
+       }
+                  
+    };
+	
+	
+   
+    
+	/*public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D)g;
 		
 		Rectangle2D.Double edges = new Rectangle2D.Double();

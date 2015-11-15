@@ -22,7 +22,7 @@ public class PitsPanel extends JPanel {
 	      
 	      for(int i = 0; i < 12; i++)
 		    {
-	    	   	PitComponent pit = new PitComponent();
+	    	   	PitLabel pit = new PitLabel();
 		        add(pit);
 		    }
 	      
