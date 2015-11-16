@@ -12,6 +12,8 @@ import javax.swing.*;
 public class GameFrame extends JFrame {
 
 	public GameFrame(Game game) {
+		game.attachListener(event -> repaint());
+
 		add(new GameWithLabels(game), BorderLayout.CENTER);
 
 		JLabel statusLabel = new JLabel(game.getMessageForPlayers());
