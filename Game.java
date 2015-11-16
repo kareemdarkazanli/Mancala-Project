@@ -29,12 +29,8 @@ class Game {
 	 * Pit is the list of board pits and board mancalas.
 	 */
 	public enum Pit {
-		A1(), A2(), A3(), A4(), A5(), A6(), MANCALA_A(),
-		B1(), B2(), B3(), B4(), B5(), B6(), MANCALA_B();
-
-		private Pit() {
-			fromOrdinal.put(ordinal(), this);
-		}
+		A1, A2, A3, A4, A5, A6, MANCALA_A,
+		B1, B2, B3, B4, B5, B6, MANCALA_B;
 
 		/**
 		 * Returns the next pit that comes after this one.
@@ -42,8 +38,8 @@ class Game {
 		 * @return the next pit after this one
 		 */
 		public Pit successor() {
-			int index = (ordinal() + 1) % fromOrdinal.size();
-			return fromOrdinal.get(index);
+			int index = (ordinal() + 1) % NUM_PITS;
+			return values()[index];
 		}
 
 		/**
@@ -54,8 +50,6 @@ class Game {
 		public boolean isMancala() {
 			return this == MANCALA_A || this == MANCALA_B;
 		}
-
-		private HashMap<Integer,Pit> fromOrdinal = new HashMap<>();
 	}
 	private enum Player { A, B };
 	private static int NUM_PITS = 14;
@@ -204,9 +198,8 @@ class Game {
 	}
 
 	private boolean isGameOver() {
-		for (int i = 0; i < NUM_PITS; i++) {
-			Pit pit = Pit.fromOrdinal(i);
-			if (!isMancala(pit) && !isEmpty(pit))
+		for (Pit pit : Pit.values()) {
+			if (!pit.isMancala() && !isEmpty(pit))
 				return false;
 		}
 		return true;
