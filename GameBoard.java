@@ -16,13 +16,13 @@ import javax.swing.*;
 */
 public class GameBoard extends JPanel {
 	
-	public GameBoard(){
+	public GameBoard(Game game) {
 					
 	     setBorder(BorderFactory.createLineBorder(Color.black));   
 	     setLayout(new BorderLayout()); 
-	     add(new MancalaPanel(), BorderLayout.EAST);
-	     add(new MancalaPanel(), BorderLayout.WEST);
-	     add(new PitsPanel(), BorderLayout.CENTER);
+	     add(new MancalaPanel(game), BorderLayout.EAST);
+	     add(new MancalaPanel(game), BorderLayout.WEST);
+	     add(new PitsPanel(game), BorderLayout.CENTER);
 	}
 	
 /* Has

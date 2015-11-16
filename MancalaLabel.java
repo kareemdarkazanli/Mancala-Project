@@ -21,10 +21,8 @@ public class MancalaLabel extends JLabel {
 	private static int ICON_WIDTH = 40;
 	private static int ICON_HEIGHT = 160;
 	
-	public MancalaLabel(){
+	public MancalaLabel(Game game) {
 		super(mancala);
-		
-		
 	}
 	
 	static Icon mancala = new Icon()

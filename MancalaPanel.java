@@ -6,10 +6,10 @@ import javax.swing.JPanel;
 
 public class MancalaPanel extends JPanel {
 	
-	public MancalaPanel()
+	public MancalaPanel(Game game)
 	{
 		setLayout(new BorderLayout());
-		MancalaLabel mancalaLabel = new MancalaLabel();
+		MancalaLabel mancalaLabel = new MancalaLabel(game);
 		add(mancalaLabel, BorderLayout.CENTER);
 	}
 

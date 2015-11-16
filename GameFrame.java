@@ -9,28 +9,26 @@ import javax.swing.*;
 	Listens for Game changes and issues repaint
 	Repaints on Game stateChange
 */
-public class GameFrame{
-	
-	public GameFrame()
-	{
-		
-		
-		
-		JFrame frame = new JFrame();
-		frame.add(new GameWithLabels(), BorderLayout.CENTER);
-		
-		JLabel statusLabel = new JLabel("The status goes here");
-		frame.add(statusLabel, BorderLayout.SOUTH);
-		
+public class GameFrame extends JFrame {
+
+	public GameFrame(Game game) {
+		add(new GameWithLabels(game), BorderLayout.CENTER);
+
+		JLabel statusLabel = new JLabel(game.getMessageForPlayers());
+		game.attachListener(event -> statusLabel.setText(game.getMessageForPlayers()));
+		add(statusLabel, BorderLayout.SOUTH);
+
 		JButton undoButton = new JButton("UNDO");
-		frame.add(undoButton, BorderLayout.NORTH);
-		      
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		      	//frame.setResizable(false);
-			    // frame.pack();
-		frame.setSize(400, 235);
-		frame.setVisible(true);
+		undoButton.addActionListener(event -> game.performUndo());
+		add(undoButton, BorderLayout.NORTH);
+
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setResizable(false);
+		//pack();
+		setSize(400, 235);
+		setVisible(true);
 	}
+
 /* Has
 	GameWithLabels
 	JButton for undo button
@@ -43,4 +41,5 @@ public class GameFrame{
 	StatusPanel
 	Game
 */
+
 }
