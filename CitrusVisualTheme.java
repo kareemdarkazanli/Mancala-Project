@@ -8,7 +8,15 @@ class CitrusVisualTheme implements VisualTheme {
 		return new Ellipse2D.Double(0, 0, 6, 6);
 	}
 
-	public Color getGameColor() {
+	public Color getPitColor() {
+		return Color.RED;
+	}
+
+	public Shape getStoneShape() {
+		return new Ellipse2D.Double(0, 0, 6, 6);
+	}
+
+	public Color getStoneColor() {
 		return Color.RED;
 	}
 }

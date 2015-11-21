@@ -8,7 +8,15 @@ class MidnightVisualTheme implements VisualTheme {
 		return new Rectangle2D.Double(0, 0, 5, 5);
 	}
 
-	public Color getGameColor() {
+	public Color getPitColor() {
+		return Color.BLUE;
+	}
+
+	public Shape getStoneShape() {
+		return new Rectangle2D.Double(0, 0, 5, 5);
+	}
+
+	public Color getStoneColor() {
 		return Color.BLUE;
 	}
 }
