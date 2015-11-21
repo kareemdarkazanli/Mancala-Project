@@ -16,12 +16,12 @@ import javax.swing.*;
 */
 public class GameBoard extends JPanel {
 
-	private MancalaLabel mancalaA, mancalaB;
+	private PitLabel mancalaA, mancalaB;
 	private PitsPanel pits;
 	
 	public GameBoard(Game game) {
-	     mancalaA = new MancalaLabel(game);
-	     mancalaB = new MancalaLabel(game);
+	     mancalaA = new PitLabel(game, Game.Pit.MANCALA_A);
+	     mancalaB = new PitLabel(game, Game.Pit.MANCALA_B);
 	     pits = new PitsPanel(game);
 
 	     setBorder(BorderFactory.createLineBorder(Color.black));   

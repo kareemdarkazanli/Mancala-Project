@@ -17,7 +17,7 @@ public class GameFrame extends JFrame {
 		game.attachListener(event -> repaint());
 
 		gameWithLabels = new GameWithLabels(game);
-		gameWithLabels.setTheme(new CitrusVisualTheme());
+		gameWithLabels.setTheme(new CitrusVisualTheme()); // Remove once the VisualThemeSelector is finished!
 		add(gameWithLabels, BorderLayout.CENTER);
 
 		JLabel statusLabel = new JLabel(game.getMessageForPlayers());

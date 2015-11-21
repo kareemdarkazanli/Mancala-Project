@@ -1,13 +1,8 @@
 package project;
 
-import java.awt.BasicStroke;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.geom.*;
 
 import javax.swing.*;
 
@@ -20,8 +15,8 @@ import javax.swing.*;
 */
 public class PitLabel extends JLabel {
 
-	private static int ICON_WIDTH = 40;
-	private static int ICON_HEIGHT = 60;
+	private static int INITIAL_LABEL_WIDTH = 40;
+	private static int INITIAL_LABEL_HEIGHT = 60;
 
 	private Game game;
 	private Game.Pit pit;
@@ -29,6 +24,7 @@ public class PitLabel extends JLabel {
 
 	public PitLabel(Game game, Game.Pit pit)
 	{
+		PitLabel self = this;
 		this.game = game;
 		this.pit = pit;
 
@@ -39,8 +35,8 @@ public class PitLabel extends JLabel {
 		});
 
 		Icon icon = new Icon() {
-			public int getIconWidth() { return ICON_WIDTH; }
-			public int getIconHeight() { return ICON_HEIGHT; }
+			public int getIconWidth() { return self.getSize().width; }
+			public int getIconHeight() { return self.getSize().height; }
 
 			public void paintIcon(Component c, Graphics g, int x, int y)
 			{
@@ -49,7 +45,7 @@ public class PitLabel extends JLabel {
 
 				Graphics2D g2 = (Graphics2D) g;
 				g2.setColor(theme.getPitColor());
-				g2.draw(theme.getPitShape(ICON_WIDTH, ICON_HEIGHT));
+				g2.draw(theme.getPitShape(getIconWidth(), getIconHeight()));
 
 				int stones = game.getNumberOfStones(pit);
 
@@ -57,6 +53,10 @@ public class PitLabel extends JLabel {
 			}
 		};
 		setIcon(icon);
+	}
+
+	public Dimension getPreferredSize() {
+		return new Dimension(INITIAL_LABEL_WIDTH, INITIAL_LABEL_HEIGHT);
 	}
 
 	public void setTheme(VisualTheme theme) {
