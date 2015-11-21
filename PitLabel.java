@@ -1,4 +1,5 @@
 package project;
+
 import java.awt.BasicStroke;
 import java.awt.Component;
 import java.awt.Graphics;
@@ -24,6 +25,7 @@ public class PitLabel extends JLabel {
 
 	private Game game;
 	private Game.Pit pit;
+	private VisualTheme theme;
 
 	public PitLabel(Game game, Game.Pit pit)
 	{
@@ -42,12 +44,12 @@ public class PitLabel extends JLabel {
 
 			public void paintIcon(Component c, Graphics g, int x, int y)
 			{
-				Graphics2D g2 = (Graphics2D) g;
+				if (theme == null)
+					return;
 
-				Ellipse2D.Double ellipse = new Ellipse2D.Double();
-				ellipse.height = ICON_HEIGHT;
-				ellipse.width = ICON_WIDTH;
-				g2.draw(ellipse);
+				Graphics2D g2 = (Graphics2D) g;
+				g2.setColor(theme.getPitColor());
+				g2.draw(theme.getPitShape(ICON_WIDTH, ICON_HEIGHT));
 
 				int stones = game.getNumberOfStones(pit);
 
@@ -55,6 +57,10 @@ public class PitLabel extends JLabel {
 			}
 		};
 		setIcon(icon);
+	}
+
+	public void setTheme(VisualTheme theme) {
+		this.theme = theme;
 	}
 
 	/*public void paintComponent(Graphics g) {
@@ -73,7 +79,8 @@ public class PitLabel extends JLabel {
 		g2.draw(pit);
 		g2.draw(edges);
 		//g2.draw(edges);
-	}
+	}*/
+
 /* Has
 	VisualTheme
 	Game

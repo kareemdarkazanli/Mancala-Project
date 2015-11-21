@@ -17,30 +17,34 @@ import javax.swing.*;
 */
 public class MancalaLabel extends JLabel {
 	
+	private VisualTheme theme;
 	
 	private static int ICON_WIDTH = 40;
 	private static int ICON_HEIGHT = 160;
 	
 	public MancalaLabel(Game game) {
-		super(mancala);
+		setIcon(mancala);
 	}
 	
-	static Icon mancala = new Icon()
+	private Icon mancala = new Icon()
 	{
          public int getIconWidth() { return ICON_WIDTH; }
          public int getIconHeight() { return ICON_HEIGHT; }
          
          public void paintIcon(Component c, Graphics g, int x, int y)
          {
+            if (theme == null)
+               return;
             Graphics2D g2 = (Graphics2D) g;       
-            Ellipse2D.Double pit = new Ellipse2D.Double();
-            pit.height = 160;
-            pit.width = 40;
-            g2.draw(pit);
-            
+	    g2.setColor(theme.getPitColor());
+            g2.draw(theme.getPitShape(ICON_WIDTH, ICON_HEIGHT));
          }
 	};
 	
+	public void setTheme(VisualTheme theme) {
+		this.theme = theme;
+	}
+
 	
 	
 	/*public void paintComponent(Graphics g) {

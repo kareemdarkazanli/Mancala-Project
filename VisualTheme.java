@@ -3,7 +3,7 @@ package project;
 import java.awt.*;
 
 interface VisualTheme {
-	public Shape getPitShape();
+	public Shape getPitShape(int width, int height);
 	public Color getPitColor();
 
 	public Shape getStoneShape();

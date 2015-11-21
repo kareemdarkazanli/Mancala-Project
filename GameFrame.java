@@ -11,10 +11,14 @@ import javax.swing.*;
 */
 public class GameFrame extends JFrame {
 
+	private GameWithLabels gameWithLabels;
+
 	public GameFrame(Game game) {
 		game.attachListener(event -> repaint());
 
-		add(new GameWithLabels(game), BorderLayout.CENTER);
+		gameWithLabels = new GameWithLabels(game);
+		gameWithLabels.setTheme(new CitrusVisualTheme());
+		add(gameWithLabels, BorderLayout.CENTER);
 
 		JLabel statusLabel = new JLabel(game.getMessageForPlayers());
 		game.attachListener(event -> statusLabel.setText(game.getMessageForPlayers()));

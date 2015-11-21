@@ -15,14 +15,26 @@ import javax.swing.*;
 	Draws game board border (black)
 */
 public class GameBoard extends JPanel {
+
+	private MancalaLabel mancalaA, mancalaB;
+	private PitsPanel pits;
 	
 	public GameBoard(Game game) {
-					
+	     mancalaA = new MancalaLabel(game);
+	     mancalaB = new MancalaLabel(game);
+	     pits = new PitsPanel(game);
+
 	     setBorder(BorderFactory.createLineBorder(Color.black));   
 	     setLayout(new BorderLayout()); 
-	     add(new MancalaPanel(game), BorderLayout.EAST);
-	     add(new MancalaPanel(game), BorderLayout.WEST);
-	     add(new PitsPanel(game), BorderLayout.CENTER);
+	     add(mancalaA, BorderLayout.EAST);
+	     add(mancalaB, BorderLayout.WEST);
+	     add(pits, BorderLayout.CENTER);
+	}
+
+	public void setTheme(VisualTheme theme) {
+		mancalaA.setTheme(theme);
+		mancalaB.setTheme(theme);
+		pits.setTheme(theme);
 	}
 	
 /* Has

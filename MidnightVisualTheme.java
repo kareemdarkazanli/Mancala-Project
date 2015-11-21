@@ -4,8 +4,8 @@ import java.awt.*;
 import java.awt.geom.*;
 
 class MidnightVisualTheme implements VisualTheme {
-	public Shape getPitShape() {
-		return new Rectangle2D.Double(0, 0, 5, 5);
+	public Shape getPitShape(int width, int height) {
+		return new Rectangle2D.Double(0, 0, width, height);
 	}
 
 	public Color getPitColor() {

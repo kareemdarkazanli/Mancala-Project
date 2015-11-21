@@ -9,9 +9,13 @@ import javax.swing.*;
 */
 class GameWithLabels extends JPanel {
 
+	private GameBoard board;
+
 	public GameWithLabels(Game game) {
+		board = new GameBoard(game);
+
 		setLayout(new BorderLayout());
-		add(new GameBoard(game), BorderLayout.CENTER);
+		add(board, BorderLayout.CENTER);
 		add(new JTextArea("Player A --->"), BorderLayout.SOUTH);
 		add(new JTextArea("<--- Player B"), BorderLayout.NORTH);
 		add(new JTextArea("M\nA\nN\nC\nA\nL\nA\n\nA"), BorderLayout.EAST);
@@ -19,11 +23,10 @@ class GameWithLabels extends JPanel {
 	
 	}
 
-
-	/* Maybe! If not done by layout & children...
-	public void paintComponent(Graphics g) {
+	public void setTheme(VisualTheme theme) {
+		board.setTheme(theme);
 	}
-	*/
+
 /* Has
 	player and mancala labels (black)
 	GameBoard
