@@ -115,18 +115,36 @@ class Game {
 			emit("That pit is empty! Still " + currentPlayer + "'s turn.");
 			return;
 		}
-		int[] originalStones = stones.clone();
+		int[] previousStones = stones.clone();
 		boolean endedOnMancala = pickupStones(clicked);
-		if (isGameOver()) {
+		if (!canMove(Player.A) && !canMove(Player.B)) {
 			emit("Game over! " + winningPlayer());
 		} else if (endedOnMancala) {
-			canUndo = false; // Previous player can't undo once their opponent has started their turn.
-			emit("OK move by " + currentPlayer + ". " +
-				currentPlayer + "'s turn again.");
+			if (canMove(currentPlayer)) {
+				// Previous player can't undo once their opponent has started their turn.
+				canUndo = false;
+				emit("OK move by " + currentPlayer + ". " +
+					currentPlayer + "'s turn again.");
+			} else {
+				setupUndo(previousStones);
+				currentPlayer = currentPlayer.next();
+				emit("OK move by " + currentPlayer.previous() + ". " +
+					currentPlayer.previous() + " cannot move again. " +
+					currentPlayer + "'s turn.");
+			}
 		} else {
-			advanceTurn(originalStones);
-			emit("OK move by " + currentPlayer.previous() + ". " +
-				"Now " + currentPlayer + "'s turn.");
+			if (canMove(currentPlayer.next())) {
+				setupUndo(previousStones);
+				currentPlayer = currentPlayer.next();
+				emit("OK move by " + currentPlayer.previous() + ". " +
+					"Now " + currentPlayer + "'s turn.");
+			} else {
+				// Current player can't undo their own last move. Unusual.
+				canUndo = false;
+				emit("OK move by " + currentPlayer + ". " +
+					currentPlayer.next() + " cannot move. " +
+					currentPlayer + "'s turn again.");
+			}
 		}
 	}
 
@@ -148,9 +166,10 @@ class Game {
 		}
 		canUndo = false;
 		undosTaken += 1;
-		rollback();
+		stones = previousStones.clone();
+		currentPlayer = currentPlayer.previous();
 		int remaining = MAX_UNDOS - undosTaken;
-		emit("Move undone... " + remaining + " left this turn! Still " + currentPlayer + "'s turn!");
+		emit(currentPlayer + " undid their last move! " + remaining + " undos remain! " + currentPlayer + "'s turn.");
 	}
 
 	/**
@@ -194,14 +213,6 @@ class Game {
 			listener.stateChanged(new ChangeEvent(this));
 	}
 
-	private void save() {
-		previousStones = Arrays.copyOf(stones, NUM_PITS);
-	}
-
-	private void rollback() {
-		stones = Arrays.copyOf(previousStones, NUM_PITS);
-	}
-
 	private boolean belongsTo(Pit pit, Player player) {
 		switch (player) {
 		case A: return Pit.A1.ordinal() <= pit.ordinal() &&
@@ -229,25 +240,21 @@ class Game {
 		return pit.isMancala();
 	}
 
-	private boolean isGameOver() {
+	private boolean canMove(Player player) {
 		for (Pit pit : Pit.values()) {
-			if (!pit.isMancala() && !isEmpty(pit))
-				return false;
+			if (belongsTo(pit, player) && !pit.isMancala() && !isEmpty(pit)) {
+				return true;
+			}
 		}
-		return true;
+		return false;
 	}
 
-	private void advanceTurn(int[] previousStones) {
-		// Create new undo button state.
+	private void setupUndo(int[] previousStones) {
 		this.previousStones = previousStones;
 		if (canUndo) {
-			// The player cannot undo any more. It is now the next
-			// player's turn.
 			undosTaken = 0;
 		}
 		canUndo = true;
-
-		currentPlayer = currentPlayer.next();
 	}
 
 	private String winningPlayer() {
