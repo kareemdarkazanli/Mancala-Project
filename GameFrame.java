@@ -28,9 +28,7 @@ public class GameFrame extends JFrame implements ChangeListener{
 		add(statusSelectionPanel, BorderLayout.SOUTH);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//setResizable(false);
-		//pack();
-		setSize(400, 235);
+		setSize(450, 260);
 		setVisible(true);
 	}
 

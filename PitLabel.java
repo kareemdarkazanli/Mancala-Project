@@ -14,27 +14,17 @@ import javax.swing.*;
 	Tells Game that a move was made on click
 */
 public class PitLabel extends JLabel {
-
-
 	private static int INITIAL_LABEL_WIDTH = 40;
 	private static int INITIAL_LABEL_HEIGHT = 60;
-
-	
-	
-	private static int ICON_WIDTH = 40;
-	private static int ICON_HEIGHT = 60;
-
 
 	private Game game;
 	private Game.Pit pit;
 	private VisualTheme theme;
 
-	public PitLabel(Game game, Game.Pit pit)
-	{
+	public PitLabel(Game game, Game.Pit pit) {
 		PitLabel self = this;
 		this.game = game;
 		this.pit = pit;
-		
 
 		addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -57,7 +47,8 @@ public class PitLabel extends JLabel {
 
 				int stones = game.getNumberOfStones(pit);
 
-				// TODO: Draw stones.
+				// TODO: Draw stones better.
+				g2.drawString("" + stones, 20, 20);
 			}
 		};
 		setIcon(icon);
