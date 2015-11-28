@@ -28,7 +28,7 @@ public class GameFrame extends JFrame {
 		game.attachListener(e -> repaint());
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(400, 235);
+		setSize(450, 260);
 		setVisible(true);
 	}
 
