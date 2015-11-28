@@ -4,35 +4,49 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 /* Responsibilities
 	Listens for Game changes and issues repaint
 	Repaints on Game stateChange
 */
-public class GameFrame extends JFrame {
+public class GameFrame extends JFrame implements ChangeListener{
 
 	private GameWithLabels gameWithLabels;
+	private Game game;
 
-	public GameFrame(Game game) {
-		game.attachListener(event -> repaint());
+	public GameFrame(Game g) {
+		game = g;
+		//game.attachListener(event -> repaint());
 
-		gameWithLabels = new GameWithLabels(game);
-		gameWithLabels.setTheme(new CitrusVisualTheme()); // Remove once the VisualThemeSelector is finished!
-		add(gameWithLabels, BorderLayout.CENTER);
-
-		JLabel statusLabel = new JLabel(game.getMessageForPlayers());
-		game.attachListener(event -> statusLabel.setText(game.getMessageForPlayers()));
-		add(statusLabel, BorderLayout.SOUTH);
-
-		JButton undoButton = new JButton("UNDO");
-		undoButton.addActionListener(event -> game.performUndo());
-		add(undoButton, BorderLayout.NORTH);
+		
+		
+		StatusPanel statusSelectionPanel = new StatusPanel(game);
+		game.attachListener(statusSelectionPanel);
+		
+		add(statusSelectionPanel, BorderLayout.SOUTH);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//setResizable(false);
 		//pack();
 		setSize(400, 235);
 		setVisible(true);
+	}
+
+	@Override
+	public void stateChanged(ChangeEvent e) {
+		if(game.isThemeSelected())
+		{
+			gameWithLabels = new GameWithLabels(game);
+			gameWithLabels.setTheme(game.getTheme()); // Remove once the VisualThemeSelector is finished!
+			add(gameWithLabels, BorderLayout.CENTER);
+			
+			JButton undoButton = new JButton("UNDO");
+			undoButton.addActionListener(event -> game.performUndo());
+			add(undoButton, BorderLayout.NORTH);
+		}
+		
 	}
 
 /* Has

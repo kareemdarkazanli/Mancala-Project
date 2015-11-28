@@ -17,10 +17,12 @@ import javax.swing.*;
 public class PitsPanel extends JPanel {
 
 	private List<PitLabel> labels = new ArrayList<>();
+	Game game;
 
 	public PitsPanel(Game game)
 	{
 
+		this.game = game;
 		//final JFrame frame = new JFrame();
 		setLayout(new GridLayout(2, 6));
 

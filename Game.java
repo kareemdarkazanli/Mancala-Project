@@ -127,6 +127,40 @@ class Game {
 	public int getNumberOfStones(Pit pit) {
 		return stones[pit.ordinal()];
 	}
+	
+	public void setTheme(VisualTheme theme)
+	{
+		this.theme = theme;
+		isThemeSelected = true;
+		for (ChangeListener listener : listeners)
+			listener.stateChanged(new ChangeEvent(this));
+		
+	}
+	
+	public boolean isThemeSelected()
+	{
+		return isThemeSelected;
+	}
+	
+	public int getNumberOfStones()
+	{
+		return numberOfStones;
+	}
+	
+	public VisualTheme getTheme()
+	{
+		return theme;
+	}
+	
+	public boolean isGameStarted()
+	{
+		return isGameStarted;
+	}
+	
+	public void setIsGameStarted(boolean b)
+	{
+		isGameStarted = b;
+	}
 
 	/**
 	 * Set the number of stones starting out in each pit. Initially, the
@@ -138,6 +172,10 @@ class Game {
 	 */
 	public void setNumberOfStartingStones(int count) {
 		Arrays.fill(stones, count);
+		numberOfStones = count;
+		for (ChangeListener listener : listeners)
+			listener.stateChanged(new ChangeEvent(this));
+		
 	}
 
 	/**
@@ -216,6 +254,10 @@ class Game {
 		}
 	}
 
+	private int numberOfStones = 0;
+	private VisualTheme theme = null;
+	private boolean isThemeSelected = false;
+	private boolean isGameStarted = false;
 	private int[] stones = new int[NUM_PITS];
 	private int[] previousStones = new int[NUM_PITS];
 	private Player currentPlayer = Player.A;

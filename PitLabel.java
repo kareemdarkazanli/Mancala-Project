@@ -15,8 +15,15 @@ import javax.swing.*;
 */
 public class PitLabel extends JLabel {
 
+
 	private static int INITIAL_LABEL_WIDTH = 40;
 	private static int INITIAL_LABEL_HEIGHT = 60;
+
+	
+	
+	private static int ICON_WIDTH = 40;
+	private static int ICON_HEIGHT = 60;
+
 
 	private Game game;
 	private Game.Pit pit;
@@ -27,6 +34,7 @@ public class PitLabel extends JLabel {
 		PitLabel self = this;
 		this.game = game;
 		this.pit = pit;
+		
 
 		addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
