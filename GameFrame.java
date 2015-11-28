@@ -28,6 +28,8 @@ public class GameFrame extends JFrame {
 		undoButton.addActionListener(event -> game.performUndo());
 		add(undoButton, BorderLayout.NORTH);
 
+		game.setNumberOfStartingStones(3); // Remove once the stone selector is finished!
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//setResizable(false);
 		//pack();
