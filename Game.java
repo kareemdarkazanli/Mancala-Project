@@ -106,7 +106,7 @@ class Game {
 		canUndo = true;
 		if (endedOnMancala) {
 			emit("OK move by " + currentPlayer + ". " +
-				currentPlayer.next() + "'s turn again.");
+				currentPlayer + "'s turn again.");
 		} else {
 			emit("OK move by " + currentPlayer + ". " +
 				"Now " + currentPlayer.next() + "'s turn.");
