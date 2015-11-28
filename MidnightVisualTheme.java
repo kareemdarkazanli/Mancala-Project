@@ -12,8 +12,8 @@ class MidnightVisualTheme implements VisualTheme {
 		return Color.BLUE;
 	}
 
-	public Shape getStoneShape() {
-		return new Rectangle2D.Double(0, 0, 5, 5);
+	public Shape getStoneShape(int x, int y) {
+		return new Rectangle2D.Double(x, y, 5, 5);
 	}
 
 	public Color getStoneColor() {

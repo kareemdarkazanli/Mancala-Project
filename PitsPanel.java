@@ -58,7 +58,6 @@ public class PitsPanel extends JPanel {
 	public void addLabel(Game game, Game.Pit pit) {
 		PitLabel label = new PitLabel(game, pit);
 		labels.add(label);
-		add(new JLabel(pit.toString()));
 		add(label);
 		
 	}

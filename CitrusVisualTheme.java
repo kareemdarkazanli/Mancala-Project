@@ -3,7 +3,7 @@ package project;
 import java.awt.*;
 import java.awt.geom.*;
 
-class CitrusVisualTheme implements VisualTheme {
+public class CitrusVisualTheme implements VisualTheme {
 	public Shape getPitShape(int width, int height) {
 		return new Ellipse2D.Double(0, 0, width, height);
 	}
@@ -12,11 +12,13 @@ class CitrusVisualTheme implements VisualTheme {
 		return Color.RED;
 	}
 
-	public Shape getStoneShape() {
-		return new Ellipse2D.Double(0, 0, 6, 6);
+	public Shape getStoneShape(int x, int y) {
+		return new Ellipse2D.Double(x, y, 6, 6);
 	}
 
 	public Color getStoneColor() {
 		return Color.RED;
 	}
+
+	
 }
