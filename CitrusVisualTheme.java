@@ -12,8 +12,8 @@ class CitrusVisualTheme implements VisualTheme {
 		return Color.RED;
 	}
 
-	public Shape getStoneShape() {
-		return new Ellipse2D.Double(0, 0, 6, 6);
+	public Shape getStoneShape(int x, int y) {
+		return new Ellipse2D.Double(x, y, 6, 6);
 	}
 
 	public Color getStoneColor() {
