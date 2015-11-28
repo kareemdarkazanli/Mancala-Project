@@ -51,10 +51,26 @@ class Game {
 			return this == MANCALA_A || this == MANCALA_B;
 		}
 	}
+
 	private enum Player {
 		A, B;
 
+		/**
+		 * Returns the next player after the current player.
+		 *
+		 * @return the next player
+		 */
 		public Player next() {
+			return this == A ? B : A;
+		}
+
+		/**
+		 * Returns the previous player before the current player.
+		 * It does the same thing as next().
+		 *
+		 * @return the previous player
+		 */
+		public Player previous() {
 			return this == A ? B : A;
 		}
 
@@ -62,6 +78,7 @@ class Game {
 			return this == A ? "Player A" : "Player B";
 		}
 	};
+
 	private static int NUM_PITS = 14;
 	private static int MAX_UNDOS = 3;
 
@@ -94,23 +111,18 @@ class Game {
 			emit("That pit is empty! Still " + currentPlayer + "'s turn.");
 			return;
 		}
-		save();
+		int[] originalStones = stones.clone();
 		boolean endedOnMancala = pickupStones(clicked);
 		if (isGameOver()) {
 			emit("Game over! " + winningPlayer());
-			return;
-		}
-		if (canUndo) {
-			undosTaken = 0;
-		}
-		canUndo = true;
-		if (endedOnMancala) {
+		} else if (endedOnMancala) {
+			canUndo = false; // Previous player can't undo once their opponent has started their turn.
 			emit("OK move by " + currentPlayer + ". " +
 				currentPlayer + "'s turn again.");
 		} else {
-			emit("OK move by " + currentPlayer + ". " +
-				"Now " + currentPlayer.next() + "'s turn.");
-			currentPlayer = currentPlayer.next();
+			advanceTurn(originalStones);
+			emit("OK move by " + currentPlayer.previous() + ". " +
+				"Now " + currentPlayer + "'s turn.");
 		}
 	}
 
@@ -255,6 +267,19 @@ class Game {
 				return false;
 		}
 		return true;
+	}
+
+	private void advanceTurn(int[] previousStones) {
+		// Create new undo button state.
+		this.previousStones = previousStones;
+		if (canUndo) {
+			// The player cannot undo any more. It is now the next
+			// player's turn.
+			undosTaken = 0;
+		}
+		canUndo = true;
+
+		currentPlayer = currentPlayer.next();
 	}
 
 	private String winningPlayer() {
