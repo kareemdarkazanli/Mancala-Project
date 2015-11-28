@@ -10,29 +10,44 @@ import javax.swing.event.ChangeListener;
 		or JLabel at a time
 	Sets game status text on Game stateChange
 */
-public class StatusPanel extends JPanel implements ChangeListener{
-	
-	Game game;
-	StoneSelectionPanel stoneSelectionPanel;
-	ThemeSelectionPanel themeSelectionPanel;
-	JLabel statusLabel;
-	public StatusPanel(Game g)
-	{
-		game = g;
-		stoneSelectionPanel = new StoneSelectionPanel(game);
-		themeSelectionPanel = new ThemeSelectionPanel(game);
-		statusLabel = new JLabel();
-		
-		//themeSelectionPanel = new ThemeSelectionPanel(game);
+public class StatusPanel extends JPanel {
+	private Game game;
+	private StoneSelectionPanel stoneSelectionPanel;
+	private ThemeSelectionPanel themeSelectionPanel;
+	private JLabel statusLabel;
+
+	public StatusPanel(GameFrame frame, Game game) {
+		this.game = game;
+
 		setLayout(new BorderLayout());
-		add(stoneSelectionPanel, BorderLayout.CENTER);
-	
-		//add(themeSelectionPanel, BorderLayout.CENTER);
-		//game.attachListener(event -> remove(themeSelectionPanel));
-		//JLabel statusLabel = new JLabel(game.getMessageForPlayers());
-		//add(statusLabel, BorderLayout.CENTER);
-		//game.attachListener(event -> statusLabel.setText(game.getMessageForPlayers()));
+
+		ThemeSelectionPanel themePanel = new ThemeSelectionPanel(frame);
+		themePanel.addActionListener(e -> themeClicked(themePanel));
+		add(themePanel, BorderLayout.CENTER);
 	}
+
+	private void themeClicked(ThemeSelectionPanel themePanel) {
+		remove(themePanel);
+
+		StoneSelectionPanel stonePanel = new StoneSelectionPanel(game);
+		stonePanel.addActionListener(e -> stoneClicked(stonePanel));
+		add(stonePanel, BorderLayout.CENTER);
+
+		revalidate();
+		repaint();
+	}
+
+	private void stoneClicked(StoneSelectionPanel stonePanel) {
+		remove(stonePanel);
+
+		JLabel statusLabel = new JLabel(game.getMessageForPlayers());
+		game.attachListener(e -> statusLabel.setText(game.getMessageForPlayers()));
+		add(statusLabel, BorderLayout.CENTER);
+
+		revalidate();
+		repaint();
+	}
+
 /* Has
 	StoneSelectionPanel
 	ThemeSelectionPanel
@@ -41,40 +56,4 @@ public class StatusPanel extends JPanel implements ChangeListener{
 		Verbs: stateChanged
 	Game
 */
-	@Override
-	public void stateChanged(ChangeEvent e) {
-		
-		if(game.getNumberOfStones() == 0)
-		{
-			return;
-		}
-		else if(game.getNumberOfStones() > 0 && !game.isThemeSelected())
-		{	
-			remove(stoneSelectionPanel);
-			add(themeSelectionPanel, BorderLayout.CENTER);
-			revalidate();
-			repaint();
-		}
-		else if(game.isThemeSelected() && !game.isGameStarted())
-		{
-			remove(themeSelectionPanel);
-			statusLabel = new JLabel(game.getMessageForPlayers());
-			add(statusLabel, BorderLayout.CENTER);
-			statusLabel.setText(game.getMessageForPlayers());
-			game.setIsGameStarted(true);
-			revalidate();
-			repaint();
-		}
-		else
-		{
-			remove(statusLabel);
-			statusLabel = new JLabel(game.getMessageForPlayers());
-			add(statusLabel, BorderLayout.CENTER);
-			statusLabel.setText(game.getMessageForPlayers());
-			revalidate();
-			repaint();
-		}
-	
-		
-	}
 }

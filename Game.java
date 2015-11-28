@@ -99,6 +99,10 @@ class Game {
 	 *            the Pit the current player wants to pick up stones from
 	 */
 	public void performMove(Pit clicked) {
+		if (!gameStarted) {
+			emit("The game has not started yet.");
+			return;
+		}
 		if (clicked.isMancala()) {
 			emit("You cannot pick stones out of a mancala! Still " + currentPlayer + "'s turn.");
 			return;
@@ -130,6 +134,10 @@ class Game {
 	 * Attempts to undo the last move, if legal.
 	 */
 	public void performUndo() {
+		if (!gameStarted) {
+			emit("The game has not started yet.");
+			return;
+		}
 		if (undosTaken == MAX_UNDOS) {
 			emit("Max undos used this turn! Still " + currentPlayer + "'s turn!");
 			return;
@@ -155,40 +163,6 @@ class Game {
 	public int getNumberOfStones(Pit pit) {
 		return stones[pit.ordinal()];
 	}
-	
-	public void setTheme(VisualTheme theme)
-	{
-		this.theme = theme;
-		isThemeSelected = true;
-		for (ChangeListener listener : listeners)
-			listener.stateChanged(new ChangeEvent(this));
-		
-	}
-	
-	public boolean isThemeSelected()
-	{
-		return isThemeSelected;
-	}
-	
-	public int getNumberOfStones()
-	{
-		return numberOfStones;
-	}
-	
-	public VisualTheme getTheme()
-	{
-		return theme;
-	}
-	
-	public boolean isGameStarted()
-	{
-		return isGameStarted;
-	}
-	
-	public void setIsGameStarted(boolean b)
-	{
-		isGameStarted = b;
-	}
 
 	/**
 	 * Set the number of stones starting out in each pit. Initially, the
@@ -199,15 +173,9 @@ class Game {
 	 *            the number of stones to start each pit with
 	 */
 	public void setNumberOfStartingStones(int count) {
+		gameStarted = true;
 		Arrays.fill(stones, count);
-
-		numberOfStones = count;
-		for (ChangeListener listener : listeners)
-			listener.stateChanged(new ChangeEvent(this));
-		
-
 		emit("Ready to start. Begin with " + currentPlayer + "'s turn!");
-
 	}
 
 	/**
@@ -293,10 +261,7 @@ class Game {
 		}
 	}
 
-	private int numberOfStones = 0;
-	private VisualTheme theme = null;
-	private boolean isThemeSelected = false;
-	private boolean isGameStarted = false;
+	private boolean gameStarted = false;
 	private int[] stones = new int[NUM_PITS];
 	private int[] previousStones = new int[NUM_PITS];
 	private Player currentPlayer = Player.A;

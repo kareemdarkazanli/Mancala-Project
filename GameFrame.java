@@ -11,42 +11,31 @@ import javax.swing.event.ChangeListener;
 	Listens for Game changes and issues repaint
 	Repaints on Game stateChange
 */
-public class GameFrame extends JFrame implements ChangeListener{
-
-	private GameWithLabels gameWithLabels;
+public class GameFrame extends JFrame {
 	private Game game;
+	private StatusPanel statusSelectionPanel;
 
-	public GameFrame(Game g) {
-		game = g;
-		//game.attachListener(event -> repaint());
+	public GameFrame(Game game) {
+		this.game = game;
 
-		
-		
-		StatusPanel statusSelectionPanel = new StatusPanel(game);
-		game.attachListener(statusSelectionPanel);
-		
+		StatusPanel statusSelectionPanel = new StatusPanel(this, game);
 		add(statusSelectionPanel, BorderLayout.SOUTH);
 
+		JButton undoButton = new JButton("UNDO");
+		undoButton.addActionListener(event -> game.performUndo());
+		add(undoButton, BorderLayout.NORTH); 
+
+		game.attachListener(e -> repaint());
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//setResizable(false);
-		//pack();
 		setSize(400, 235);
 		setVisible(true);
 	}
 
-	@Override
-	public void stateChanged(ChangeEvent e) {
-		if(game.isThemeSelected())
-		{
-			gameWithLabels = new GameWithLabels(game);
-			gameWithLabels.setTheme(game.getTheme()); // Remove once the VisualThemeSelector is finished!
-			add(gameWithLabels, BorderLayout.CENTER);
-			
-			JButton undoButton = new JButton("UNDO");
-			undoButton.addActionListener(event -> game.performUndo());
-			add(undoButton, BorderLayout.NORTH);
-		}
-		
+	public void setTheme(VisualTheme theme) {
+		GameWithLabels gameWithLabels = new GameWithLabels(game);
+		gameWithLabels.setTheme(theme);
+		add(gameWithLabels, BorderLayout.CENTER);
 	}
 
 /* Has
