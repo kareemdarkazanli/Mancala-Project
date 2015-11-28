@@ -1,6 +1,11 @@
 package project;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.*;
 
@@ -16,10 +21,23 @@ class GameWithLabels extends JPanel {
 
 		setLayout(new BorderLayout());
 		add(board, BorderLayout.CENTER);
-		add(new JTextArea("Player A --->"), BorderLayout.SOUTH);
-		add(new JTextArea("<--- Player B"), BorderLayout.NORTH);
-		add(new JTextArea("M\nA\nN\nC\nA\nL\nA\n\nA"), BorderLayout.EAST);
-		add(new JTextArea("M\nA\nN\nC\nA\nL\nA\n\nB"), BorderLayout.WEST);
+		JPanel playerA = new JPanel();
+		playerA.setLayout(new BorderLayout());
+		playerA.add(new JLabel("																																				Player A --->"), BorderLayout.CENTER);
+		playerA.setBackground(Color.WHITE);
+		add(playerA, BorderLayout.SOUTH);
+		JPanel playerB = new JPanel();
+		playerB.setLayout(new BorderLayout());
+		playerB.add(new JLabel("																																				<--- Player B"), BorderLayout.CENTER);
+		playerB.setBackground(Color.WHITE);
+		add(playerB, BorderLayout.NORTH);
+		JTextArea mancalaA = new JTextArea("M\nA\nN\nC\nA\nL\nA\n\nA");
+		mancalaA.setFocusable(false);
+		add(mancalaA, BorderLayout.EAST);
+		JTextArea mancalaB = new JTextArea("M\nA\nN\nC\nA\nL\nA\n\nB");
+		mancalaB.setFocusable(false);
+		add(mancalaB, BorderLayout.WEST);
+		
 	
 	}
 

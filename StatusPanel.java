@@ -61,7 +61,7 @@ public class StatusPanel extends JPanel implements ChangeListener{
 			statusLabel = new JLabel(game.getMessageForPlayers());
 			add(statusLabel, BorderLayout.CENTER);
 			statusLabel.setText(game.getMessageForPlayers());
-			game.setIsGameStarted(true);
+			
 			revalidate();
 			repaint();
 		}

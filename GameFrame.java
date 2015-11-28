@@ -30,21 +30,21 @@ public class GameFrame extends JFrame implements ChangeListener{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//setResizable(false);
 		//pack();
-		setSize(400, 235);
+		setSize(410, 245);
 		setVisible(true);
 	}
 
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		if(game.isThemeSelected())
+		if(game.isThemeSelected() && !game.isGameStarted())
 		{
 			gameWithLabels = new GameWithLabels(game);
-			gameWithLabels.setTheme(game.getTheme()); // Remove once the VisualThemeSelector is finished!
-			add(gameWithLabels, BorderLayout.CENTER);
-			
+			gameWithLabels.setTheme(game.getTheme());
+			add(gameWithLabels, BorderLayout.CENTER);	
 			JButton undoButton = new JButton("UNDO");
 			undoButton.addActionListener(event -> game.performUndo());
 			add(undoButton, BorderLayout.NORTH);
+			game.setIsGameStarted(true);
 		}
 		
 	}

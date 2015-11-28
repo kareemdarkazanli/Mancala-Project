@@ -26,6 +26,10 @@ public class PitsPanel extends JPanel {
 		//final JFrame frame = new JFrame();
 		setLayout(new GridLayout(2, 6));
 
+		/*JPanel b6 = new JPanel();
+		b6.setLayout(new BorderLayout());
+		((PitsPanel) b6).addLabel(game, Game.Pit.B6);
+		addLabel();*/
 		addLabel(game, Game.Pit.B6);
 		addLabel(game, Game.Pit.B5);
 		addLabel(game, Game.Pit.B4);
@@ -54,7 +58,9 @@ public class PitsPanel extends JPanel {
 	public void addLabel(Game game, Game.Pit pit) {
 		PitLabel label = new PitLabel(game, pit);
 		labels.add(label);
+		add(new JLabel(pit.toString()));
 		add(label);
+		
 	}
 
 	public void setTheme(VisualTheme theme) {

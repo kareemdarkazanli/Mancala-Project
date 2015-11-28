@@ -188,7 +188,6 @@ class Game {
 	 */
 	public void setNumberOfStartingStones(int count) {
 		Arrays.fill(stones, count);
-
 		numberOfStones = count;
 		for (ChangeListener listener : listeners)
 			listener.stateChanged(new ChangeEvent(this));
