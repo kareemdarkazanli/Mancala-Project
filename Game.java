@@ -51,7 +51,17 @@ class Game {
 			return this == MANCALA_A || this == MANCALA_B;
 		}
 	}
-	private enum Player { A, B };
+	private enum Player {
+		A, B;
+
+		public Player next() {
+			return this == A ? B : A;
+		}
+
+		public String toString() {
+			return this == A ? "Player A" : "Player B";
+		}
+	};
 	private static int NUM_PITS = 14;
 	private static int MAX_UNDOS = 3;
 
@@ -72,21 +82,20 @@ class Game {
 	 *            the Pit the current player wants to pick up stones from
 	 */
 	public void performMove(Pit clicked) {
+		if (clicked.isMancala()) {
+			emit("You cannot pick stones out of a mancala! Still " + currentPlayer + "'s turn.");
+			return;
+		}
 		if (!belongsTo(clicked, currentPlayer)) {
-			emit("That's not your pit!");
+			emit("That's not your pit! Still " + currentPlayer + "'s turn.");
 			return;
 		}
 		if (isEmpty(clicked)) {
-			emit("That pit is empty!");
+			emit("That pit is empty! Still " + currentPlayer + "'s turn.");
 			return;
 		}
 		save();
 		boolean endedOnMancala = pickupStones(clicked);
-		if (!endedOnMancala) {
-			currentPlayer = currentPlayer == Player.A
-				? Player.B
-				: Player.A;
-		}
 		if (isGameOver()) {
 			emit("Game over! " + winningPlayer());
 			return;
@@ -95,7 +104,14 @@ class Game {
 			undosTaken = 0;
 		}
 		canUndo = true;
-		emit("OK move by " + playerName(currentPlayer) + ".");
+		if (endedOnMancala) {
+			emit("OK move by " + currentPlayer + ". " +
+				currentPlayer.next() + "'s turn again.");
+		} else {
+			emit("OK move by " + currentPlayer + ". " +
+				"Now " + currentPlayer.next() + "'s turn.");
+			currentPlayer = currentPlayer.next();
+		}
 	}
 
 	/**
@@ -103,18 +119,18 @@ class Game {
 	 */
 	public void performUndo() {
 		if (undosTaken == MAX_UNDOS) {
-			emit("Max undos used this turn!");
+			emit("Max undos used this turn! Still " + currentPlayer + "'s turn!");
 			return;
 		}
 		if (!canUndo) {
-			emit("You must take a turn first!");
+			emit("You must take a turn first! Still " + currentPlayer + "'s turn!");
 			return;
 		}
 		canUndo = false;
 		undosTaken += 1;
 		rollback();
 		int remaining = MAX_UNDOS - undosTaken;
-		emit("Move undone... " + remaining + " left this turn!");
+		emit("Move undone... " + remaining + " left this turn! Still " + currentPlayer + "'s turn!");
 	}
 
 	/**
@@ -172,10 +188,14 @@ class Game {
 	 */
 	public void setNumberOfStartingStones(int count) {
 		Arrays.fill(stones, count);
+
 		numberOfStones = count;
 		for (ChangeListener listener : listeners)
 			listener.stateChanged(new ChangeEvent(this));
 		
+
+		emit("Ready to start. Begin with " + currentPlayer + "'s turn!");
+
 	}
 
 	/**
@@ -189,7 +209,7 @@ class Game {
 	}
 
 	private void emit(String message) {
-		this.message = message + " " + playerName(currentPlayer) + "'s turn!";
+		this.message = message;
 		for (ChangeListener listener : listeners)
 			listener.stateChanged(new ChangeEvent(this));
 	}
@@ -200,14 +220,6 @@ class Game {
 
 	private void rollback() {
 		stones = Arrays.copyOf(previousStones, NUM_PITS);
-	}
-
-	private String playerName(Player player) {
-		switch (player) {
-		case A: return "Player A";
-		case B: return "Player B";
-		default: throw new RuntimeException("Unknown player!");
-		}
 	}
 
 	private boolean belongsTo(Pit pit, Player player) {
@@ -225,7 +237,9 @@ class Game {
 	}
 
 	private boolean pickupStones(Pit pit) {
-		for (int pickedUp = stones[pit.ordinal()]; pickedUp > 0; pickedUp--) {
+		int pickedUp = stones[pit.ordinal()];
+		stones[pit.ordinal()] = 0;
+		for (; pickedUp > 0; pickedUp--) {
 			pit = pit.successor();
 			// Skip the opponent's mancala.
 			if (pit.isMancala() && !belongsTo(pit, currentPlayer))
