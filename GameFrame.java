@@ -51,6 +51,8 @@ public class GameFrame extends JFrame implements ChangeListener{
 			game.setIsGameStarted(true);
 		}
 		
+		repaint();
+		
 	}
 
 /* Has
