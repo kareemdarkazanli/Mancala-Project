@@ -31,10 +31,11 @@ class GameWithLabels extends JPanel {
 		playerB.add(new JLabel("<--- Player B", SwingConstants.CENTER), BorderLayout.CENTER);
 		playerB.setBackground(Color.WHITE);
 		add(playerB, BorderLayout.NORTH);
-		JTextArea mancalaA = new JTextArea("M\nA\nN\nC\nA\nL\nA\n\nA");
-		mancalaA.setFocusable(false);
+		JLabel mancalaA = new JLabel("<html>M<br>A<br>N<br>C<br>A<br>L<br>A<br><br>A</html>");
+		mancalaA.setVerticalAlignment(SwingConstants.CENTER);
 		add(mancalaA, BorderLayout.EAST);
-		JTextArea mancalaB = new JTextArea("M\nA\nN\nC\nA\nL\nA\n\nB");
+		JLabel mancalaB = new JLabel("<html>M<br>A<br>N<br>C<br>A<br>L<br>A<br><br>B</html>");
+		mancalaB.setVerticalAlignment(SwingConstants.CENTER);
 		mancalaB.setFocusable(false);
 		add(mancalaB, BorderLayout.WEST);
 		
