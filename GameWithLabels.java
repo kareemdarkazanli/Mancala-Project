@@ -23,12 +23,12 @@ class GameWithLabels extends JPanel {
 		add(board, BorderLayout.CENTER);
 		JPanel playerA = new JPanel();
 		playerA.setLayout(new BorderLayout());
-		playerA.add(new JLabel("																																				Player A --->"), BorderLayout.CENTER);
+		playerA.add(new JLabel("Player A --->", SwingConstants.CENTER), BorderLayout.CENTER);
 		playerA.setBackground(Color.WHITE);
 		add(playerA, BorderLayout.SOUTH);
 		JPanel playerB = new JPanel();
 		playerB.setLayout(new BorderLayout());
-		playerB.add(new JLabel("																																				<--- Player B"), BorderLayout.CENTER);
+		playerB.add(new JLabel("<--- Player B", SwingConstants.CENTER), BorderLayout.CENTER);
 		playerB.setBackground(Color.WHITE);
 		add(playerB, BorderLayout.NORTH);
 		JTextArea mancalaA = new JTextArea("M\nA\nN\nC\nA\nL\nA\n\nA");
