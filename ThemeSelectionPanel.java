@@ -4,12 +4,25 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
-/* Responsibilities
-	Tells VisualTheme what stone color and pit shape to use
+
+/**
+* CS 151 Mancala Project solution for MancalaTest
+* @author kareem_darkazanli
+* @version 1
+*/
+
+/**
+* The ThemeSelectionPanel is responsible for drawing
+* two buttons that allow the user to choose the game's theme.
 */
 public class ThemeSelectionPanel extends JPanel {
 	
 	Game game;
+	
+	/**
+	 * Constructor for the ThemeSelectionPanel
+	 * @param g  the model object holding the game's data.
+	 */
 	public ThemeSelectionPanel(Game g)
 	{
 		game = g;
@@ -42,13 +55,7 @@ public class ThemeSelectionPanel extends JPanel {
 		buttonsPanel.add(buttonCitrus, BorderLayout.WEST);
 		buttonsPanel.add(buttonMidnight, BorderLayout.EAST);
 		add(buttonsPanel, BorderLayout.CENTER);
-		
-		
+	
 	}
-/* Has
-	VisualTheme
-	JButtons for two different themes
-	ActionListener for buttons (anonymous class) (controller)
-		Verbs: actionPerformed
-*/
+
 }

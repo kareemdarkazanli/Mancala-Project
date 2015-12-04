@@ -175,6 +175,9 @@ class Game {
 		return stones[pit.ordinal()];
 	}
 	
+	/**
+	 * @param theme  sets the theme of the game
+	 */
 	public void setTheme(VisualTheme theme)
 	{
 		this.theme = theme;
@@ -184,26 +187,40 @@ class Game {
 		
 	}
 	
+	/**
+	 * @return  returns true if the theme has been selected.
+	 */
 	public boolean isThemeSelected()
 	{
 		return isThemeSelected;
 	}
-	
+	/**
+	 * @return  returns the number of stones per pit.
+	 */
 	public int getNumberOfStones()
 	{
 		return numberOfStones;
 	}
 	
+	/**
+	 * @return  returns the visual theme of the game
+	 */
 	public VisualTheme getTheme()
 	{
 		return theme;
 	}
 	
+	/**
+	 * @return  returns true if the game has started
+	 */
 	public boolean isGameStarted()
 	{
 		return isGameStarted;
 	}
 	
+	/**
+	 * @param b  sets whether or not the game has started. 
+	 */
 	public void setIsGameStarted(boolean b)
 	{
 		isGameStarted = b;
@@ -218,7 +235,14 @@ class Game {
 	 *            the number of stones to start each pit with
 	 */
 	public void setNumberOfStartingStones(int count) {
-		Arrays.fill(stones, count);
+		for(int i = 0; i < 6; i ++)
+		{
+			stones[i] = count;
+		}
+		for(int i = 7; i < 13; i ++)
+		{
+			stones[i] = count;
+		}
 		numberOfStones = count;
 		for (ChangeListener listener : listeners)
 			listener.stateChanged(new ChangeEvent(this));

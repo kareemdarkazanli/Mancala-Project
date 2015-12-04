@@ -5,10 +5,15 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-/* Responsibilities
-	Shows one of StoneSelectionPanel, ThemeSelectionPanel,
-		or JLabel at a time
-	Sets game status text on Game stateChange
+/**
+* CS 151 Mancala Project solution for MancalaTest
+* @author kareem_darkazanli
+* @version 1
+*/
+
+/**
+* The StatusPanel is responsible for updating the
+* user about the status of the game.
 */
 public class StatusPanel extends JPanel implements ChangeListener{
 	
@@ -16,31 +21,22 @@ public class StatusPanel extends JPanel implements ChangeListener{
 	StoneSelectionPanel stoneSelectionPanel;
 	ThemeSelectionPanel themeSelectionPanel;
 	JLabel statusLabel;
+	
+	/**
+	 * Constructor for the StoneSelectionPanel
+	 * @param g  the model object holding the game's data.
+	 */
 	public StatusPanel(Game g)
 	{
 		game = g;
 		stoneSelectionPanel = new StoneSelectionPanel(game);
 		themeSelectionPanel = new ThemeSelectionPanel(game);
 		statusLabel = new JLabel();
-		
-		//themeSelectionPanel = new ThemeSelectionPanel(game);
 		setLayout(new BorderLayout());
 		add(stoneSelectionPanel, BorderLayout.CENTER);
 	
-		//add(themeSelectionPanel, BorderLayout.CENTER);
-		//game.attachListener(event -> remove(themeSelectionPanel));
-		//JLabel statusLabel = new JLabel(game.getMessageForPlayers());
-		//add(statusLabel, BorderLayout.CENTER);
-		//game.attachListener(event -> statusLabel.setText(game.getMessageForPlayers()));
 	}
-/* Has
-	StoneSelectionPanel
-	ThemeSelectionPanel
-	JLabel for displaying game messages
-	ChangeListener updating game messages (anonymous class)
-		Verbs: stateChanged
-	Game
-*/
+
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		

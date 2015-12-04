@@ -7,30 +7,36 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-/* Responsibilities
-	Listens for Game changes and issues repaint
-	Repaints on Game stateChange
+/**
+* CS 151 Mancala Project solution for MancalaTest
+* @author Kareem Darkazanli
+* @version 1
+*/
+
+/**
+* The GameFrame class is responsible for drawing the game board
+* onto a JFrame
 */
 public class GameFrame extends JFrame implements ChangeListener{
 
 	private GameWithLabels gameWithLabels;
 	private Game game;
 
+	/**
+	 * Constructor for the GameFrame
+	 * @param game  the model object holding the game's data.
+	 */
 	public GameFrame(Game g) {
 		game = g;
-		//game.attachListener(event -> repaint());
-
-		
-		
+	
 		StatusPanel statusSelectionPanel = new StatusPanel(game);
+		
 		game.attachListener(statusSelectionPanel);
 		
 		add(statusSelectionPanel, BorderLayout.SOUTH);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		//setResizable(false);
-		//pack();
 		setSize(410, 245);
 
 		setSize(450, 260);
@@ -52,20 +58,6 @@ public class GameFrame extends JFrame implements ChangeListener{
 		}
 		
 		repaint();
-		
 	}
-
-/* Has
-	GameWithLabels
-	JButton for undo button
-	ActionListener for undo button (anonymous class) (controller)
-		Verbs: actionPerformed
-	ChangeListener for repainting when Game updates (anonymous class)
-		Verbs: stateChanged
-	ChangeListener for when ThemeSelectionPanel is done (anonymous class)
-		Verbs: stateChanged
-	StatusPanel
-	Game
-*/
 
 }

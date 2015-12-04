@@ -11,25 +11,31 @@ import java.util.*;
 
 import javax.swing.*;
 
-/* Responsibilities
-	Holds PitComponents
+/**
+* CS 151 Mancala Project solution for MancalaTest
+* @author Paul Merrill
+* @version 1
+*/
+
+/**
+* The PitsPanel is responsible for drawing the pits
+* onto the Mancala Board.
 */
 public class PitsPanel extends JPanel {
 
 	private List<PitLabel> labels = new ArrayList<>();
 	Game game;
 
+	/**
+	 * Constructor for the PitsPanel
+	 * @param game  the model object holding the game's data.
+	 */
 	public PitsPanel(Game game)
 	{
 
 		this.game = game;
-		//final JFrame frame = new JFrame();
 		setLayout(new GridLayout(2, 6));
 
-		/*JPanel b6 = new JPanel();
-		b6.setLayout(new BorderLayout());
-		((PitsPanel) b6).addLabel(game, Game.Pit.B6);
-		addLabel();*/
 		addLabel(game, Game.Pit.B6);
 		addLabel(game, Game.Pit.B5);
 		addLabel(game, Game.Pit.B4);

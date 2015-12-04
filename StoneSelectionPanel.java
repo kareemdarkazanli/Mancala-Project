@@ -5,12 +5,23 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-/* Responsibilities
-	Tells Game how many stones to start with
+/**
+* CS 151 Mancala Project solution for MancalaTest
+* @author kareem_darkazanli
+* @version 1
+*/
+
+/**
+* The StoneSelectionPanel is responsible for drawing
+* two buttons that allow the user to choose the starting number of stones in each pit.
 */
 public class StoneSelectionPanel extends JPanel {
 	
 	Game game;
+	/**
+	 * Constructor for the StoneSelectionPanel
+	 * @param g  the model object holding the game's data.
+	 */
 	public StoneSelectionPanel(Game g)
 	{
 		game = g;
@@ -45,10 +56,4 @@ public class StoneSelectionPanel extends JPanel {
 		add(buttonsPanel, BorderLayout.CENTER);
 		
 	}
-/* Has
-	Game
-	JButtons for 3 and 4 stones to start with
-	ActionListener for buttons (anonymous class) (controller)
-		Verbs: actionPerformed
-*/
 }

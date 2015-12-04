@@ -6,12 +6,15 @@ import java.awt.geom.*;
 
 import javax.swing.*;
 
-/* Responsibilities
-	Knows which pit it is (e.g. 10th pit)
-	Fetches number of stones from Game during paint
-	Draws pit circle (black; shape from VisualTheme)
-	Draws stones (color from VisualTheme)
-	Tells Game that a move was made on click
+/**
+* CS 151 Mancala Project solution for MancalaTest
+* @author Paul Merrill
+* @version 1
+*/
+
+/**
+* The PitLabel is responsible for drawing the number
+* of stones within itself.
 */
 public class PitLabel extends JComponent {
 	private static int INITIAL_LABEL_WIDTH = 40;
@@ -21,6 +24,10 @@ public class PitLabel extends JComponent {
 	private Game.Pit pit;
 	private VisualTheme theme;
 
+	/**
+	 * Constructor for the PitsPanel
+	 * @param game, pit  the model object holding the game's data and its id.
+	 */
 	public PitLabel(Game game, Game.Pit pit) {
 		PitLabel self = this;
 		this.game = game;
@@ -34,14 +41,22 @@ public class PitLabel extends JComponent {
 		});
 	}
 
+	/**
+	 * @return returns a Dimension Object containing the pit's width and height
+	 */
 	public Dimension getPreferredSize() {
 		return new Dimension(INITIAL_LABEL_WIDTH, INITIAL_LABEL_HEIGHT);
 	}
 
+	/**
+	 * 
+	 * @param theme  sets the size and color of the pit and its stones.
+	 */
 	public void setTheme(VisualTheme theme) {
 		this.theme = theme;
 	}
 
+	@Override
 	public void paintComponent(Graphics g) {
 		if (theme == null)
 			return;
@@ -54,7 +69,7 @@ public class PitLabel extends JComponent {
 		paintStones(g2, width, height);
 	}
 
-	public void paintPit(Graphics2D g, int width, int height) {
+	private void paintPit(Graphics2D g, int width, int height) {
 		Color pitColor = theme.getPitColor();
 		Shape pitShape = theme.getPitShape(width, height);
 
@@ -62,10 +77,7 @@ public class PitLabel extends JComponent {
 		g.draw(pitShape);
 	}
 
-	public void paintStones(Graphics2D g, int width, int height) {
-		// Draw the stones in two columns. If there are an odd number
-		// of stones put the last one in the center of its column.
-
+	private void paintStones(Graphics2D g, int width, int height) {
 		Color stoneColor = theme.getStoneColor();
 		Shape stoneShape = theme.getStoneShape(0, 0);
 
@@ -74,8 +86,8 @@ public class PitLabel extends JComponent {
 		int numTotalRows = (numStones + 1) / 2;
 		boolean isOdd = numStones % 2 == 1;
 
-		int columnWidth = 20; // pixels between the two columns
-		int rowHeight; // pixels between two consecutive rows
+		int columnWidth = 20; 
+		int rowHeight; 
 
 		if (numTotalRows > 7) {
 			rowHeight = 8;
@@ -106,10 +118,4 @@ public class PitLabel extends JComponent {
 		}
 	}
 
-/* Has
-	VisualTheme
-	Game
-	MouseAdapter for itself (anonymous class) (controller)
-		Verbs: mouseClicked
-*/
 }
