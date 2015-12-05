@@ -84,9 +84,7 @@ class Game {
 
 	/**
 	 * Adds a ChangeListener to the model.
-	 *
-	 * @param listener
-	 *            the ChangeListener to be added
+	 * @param listener the ChangeListener to be added
 	 */
 	public void attachListener(ChangeListener listener) {
 		listeners.add(listener);
@@ -94,9 +92,7 @@ class Game {
 
 	/**
 	 * Attempts to make a move for the current player.
-	 *
-	 * @param clicked
-	 *            the Pit the current player wants to pick up stones from
+	 * @param clicked the Pit the current player wants to pick up stones from
 	 */
 	public void performMove(Pit clicked) {
 		if (clicked.isMancala()) {
@@ -167,8 +163,7 @@ class Game {
 	/**
 	 * Returns the number of stones that are currently in a particular pit.
 	 *
-	 * @param pit
-	 *            the pit to check
+	 * @param pit  the pit to check
 	 * @return the number of stones in that pit
 	 */
 	public int getNumberOfStones(Pit pit) {

@@ -50,31 +50,22 @@ public class PitsPanel extends JPanel {
 		addLabel(game, Game.Pit.A5);
 		addLabel(game, Game.Pit.A6);
 
-		//pitPanel.setBounds(0, 0, 150, 50);	 
-		//frame.add(pitPanel,
-		//BorderLayout.CENTER);
-
-		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//frame.setResizable(false);
-		//frame.pack();
-		//frame.setSize(WIDTH, HEIGHT);
-		//frame.setVisible(true);
 	}
 
-	public void addLabel(Game game, Game.Pit pit) {
+	private void addLabel(Game game, Game.Pit pit) {
 		PitLabel label = new PitLabel(game, pit);
 		labels.add(label);
 		add(label);
 		
 	}
 
+	/**
+	 * 
+	 * @param theme  sets the size and color of the pit and its stones.
+	 */
 	public void setTheme(VisualTheme theme) {
 		for (PitLabel label : labels)
 			label.setTheme(theme);
 	}
 
-	/* Has
-	   VisualTheme
-	   twelve PitComponents for each pit
-	 */
 }

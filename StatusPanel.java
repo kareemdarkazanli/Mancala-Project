@@ -23,7 +23,7 @@ public class StatusPanel extends JPanel implements ChangeListener{
 	JLabel statusLabel;
 	
 	/**
-	 * Constructor for the StoneSelectionPanel
+	 * Constructor for the StatusPanel
 	 * @param g  the model object holding the game's data.
 	 */
 	public StatusPanel(Game g)
@@ -56,8 +56,7 @@ public class StatusPanel extends JPanel implements ChangeListener{
 			remove(themeSelectionPanel);
 			statusLabel = new JLabel(game.getMessageForPlayers());
 			add(statusLabel, BorderLayout.CENTER);
-			statusLabel.setText(game.getMessageForPlayers());
-			
+			statusLabel.setText(game.getMessageForPlayers());			
 			revalidate();
 			repaint();
 		}
