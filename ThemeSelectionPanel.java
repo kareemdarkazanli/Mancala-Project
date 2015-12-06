@@ -17,15 +17,12 @@ import javax.swing.*;
 */
 public class ThemeSelectionPanel extends JPanel {
 	
-	Game game;
-	
 	/**
 	 * Constructor for the ThemeSelectionPanel
-	 * @param g  the model object holding the game's data.
+	 * @param game  the model object holding the game's data.
 	 */
-	public ThemeSelectionPanel(Game g)
+	public ThemeSelectionPanel(Game game)
 	{
-		game = g;
 		setLayout(new BorderLayout());
 		JButton buttonCitrus = new JButton("Citrus Theme");
 		buttonCitrus.addActionListener(new ActionListener(){

@@ -17,10 +17,10 @@ import javax.swing.event.ChangeListener;
 */
 public class StatusPanel extends JPanel implements ChangeListener{
 	
-	Game game;
-	StoneSelectionPanel stoneSelectionPanel;
-	ThemeSelectionPanel themeSelectionPanel;
-	JLabel statusLabel;
+	private Game game;
+	private StoneSelectionPanel stoneSelectionPanel;
+	private ThemeSelectionPanel themeSelectionPanel;
+	private JLabel statusLabel;
 	
 	/**
 	 * Constructor for the StatusPanel

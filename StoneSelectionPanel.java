@@ -17,14 +17,12 @@ import javax.swing.*;
 */
 public class StoneSelectionPanel extends JPanel {
 	
-	Game game;
 	/**
 	 * Constructor for the StoneSelectionPanel
-	 * @param g  the model object holding the game's data.
+	 * @param game  the model object holding the game's data.
 	 */
-	public StoneSelectionPanel(Game g)
+	public StoneSelectionPanel(Game game)
 	{
-		game = g;
 		setLayout(new BorderLayout());
 		JButton buttonThree = new JButton("3");
 		buttonThree.addActionListener(new ActionListener(){

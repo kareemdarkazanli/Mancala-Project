@@ -24,7 +24,6 @@ import javax.swing.*;
 public class PitsPanel extends JPanel {
 
 	private List<PitLabel> labels = new ArrayList<>();
-	Game game;
 
 	/**
 	 * Constructor for the PitsPanel
@@ -32,8 +31,6 @@ public class PitsPanel extends JPanel {
 	 */
 	public PitsPanel(Game game)
 	{
-
-		this.game = game;
 		setLayout(new GridLayout(2, 6));
 
 		addLabel(game, Game.Pit.B6);
