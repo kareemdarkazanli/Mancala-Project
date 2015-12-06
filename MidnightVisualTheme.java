@@ -1,7 +1,6 @@
-package project;
-
 import java.awt.*;
 import java.awt.geom.*;
+
 /**
 * CS 151 Mancala Project solution for MancalaTest
 * @author Paul Merrill
