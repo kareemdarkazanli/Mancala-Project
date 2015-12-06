@@ -37,9 +37,7 @@ public class GameFrame extends JFrame implements ChangeListener{
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		setSize(410, 245);
-
-		setSize(450, 260);
+		setSize(450, 360);
 
 		setVisible(true);
 	}

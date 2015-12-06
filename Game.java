@@ -107,36 +107,21 @@ class Game {
 			emit("That pit is empty! Still " + currentPlayer + "'s turn.");
 			return;
 		}
-		int[] previousStones = stones.clone();
 		boolean endedOnMancala = pickupStones(clicked);
-		if (!canMove(Player.A) && !canMove(Player.B)) {
+		if (!canMove(Player.A) || !canMove(Player.B)) {
+			canUndo = false;
+			rewardRemainingStones();
 			emit("Game over! " + winningPlayer());
 		} else if (endedOnMancala) {
-			if (canMove(currentPlayer)) {
-				// Previous player can't undo once their opponent has started their turn.
-				canUndo = false;
-				emit("OK move by " + currentPlayer + ". " +
-					currentPlayer + "'s turn again.");
-			} else {
-				setupUndo(previousStones);
-				currentPlayer = currentPlayer.next();
-				emit("OK move by " + currentPlayer.previous() + ". " +
-					currentPlayer.previous() + " cannot move again. " +
-					currentPlayer + "'s turn.");
-			}
+			// Previous player can't undo once their opponent has started their turn.
+			canUndo = false;
+			emit("OK move by " + currentPlayer + ". " +
+				currentPlayer + "'s turn again.");
 		} else {
-			if (canMove(currentPlayer.next())) {
-				setupUndo(previousStones);
-				currentPlayer = currentPlayer.next();
-				emit("OK move by " + currentPlayer.previous() + ". " +
-					"Now " + currentPlayer + "'s turn.");
-			} else {
-				// Current player can't undo their own last move. Unusual.
-				canUndo = false;
-				emit("OK move by " + currentPlayer + ". " +
-					currentPlayer.next() + " cannot move. " +
-					currentPlayer + "'s turn again.");
-			}
+			setupUndo();
+			currentPlayer = currentPlayer.next();
+			emit("OK move by " + currentPlayer.previous() + ". " +
+				"Now " + currentPlayer + "'s turn.");
 		}
 	}
 
@@ -238,6 +223,7 @@ class Game {
 		{
 			stones[i] = count;
 		}
+		nextStones = stones.clone();
 		numberOfStones = count;
 		for (ChangeListener listener : listeners)
 			listener.stateChanged(new ChangeEvent(this));
@@ -299,8 +285,20 @@ class Game {
 		return false;
 	}
 
-	private void setupUndo(int[] previousStones) {
-		this.previousStones = previousStones;
+	private void rewardRemainingStones() {
+		for (Pit pit = Pit.A1; pit != Pit.MANCALA_A; pit = pit.successor()) {
+			stones[Pit.MANCALA_A.ordinal()] += stones[pit.ordinal()];
+			stones[pit.ordinal()] = 0;
+		}
+		for (Pit pit = Pit.B1; pit != Pit.MANCALA_B; pit = pit.successor()) {
+			stones[Pit.MANCALA_B.ordinal()] += stones[pit.ordinal()];
+			stones[pit.ordinal()] = 0;
+		}
+	}
+
+	private void setupUndo() {
+		previousStones = nextStones.clone();
+		nextStones = stones.clone();
 		if (canUndo) {
 			undosTaken = 0;
 		}
@@ -323,6 +321,7 @@ class Game {
 	private boolean isThemeSelected = false;
 	private boolean isGameStarted = false;
 	private int[] stones = new int[NUM_PITS];
+	private int[] nextStones = new int[NUM_PITS];
 	private int[] previousStones = new int[NUM_PITS];
 	private Player currentPlayer = Player.A;
 	private boolean canUndo = false; // To prevent undoing twice in a row, which is illegal.
